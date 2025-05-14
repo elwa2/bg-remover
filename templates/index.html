@@ -1,27 +1,47 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تطبيق إزالة خلفية الصور</title>
+    <title>تطبيق إزالة خلفية الصور - 2025</title>
     <!-- Bootstrap RTL CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+    <!-- Modern CSS for 2025 Design -->
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/modern.css') }}">
+    <!-- Animations CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/animations.css') }}">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', path='/img/favicon.png') }}">
+    <!-- Meta Tags -->
+    <meta name="description" content="تطبيق احترافي لإزالة خلفية الصور باستخدام الذكاء الاصطناعي - تصميم 2025">
+    <meta name="keywords" content="إزالة خلفية, تعديل صور, ذكاء اصطناعي, تصميم 2025">
+    <meta name="author" content="علي أحمد">
+    <meta name="theme-color" content="#4361ee">
 </head>
 <body>
     <div class="container py-5">
-        <header class="text-center mb-5">
-            <h1 class="display-4 fw-bold text-primary">تطبيق إزالة خلفية الصور</h1>
-            <p class="lead">قم برفع صورتك وإزالة الخلفية بنقرة واحدة</p>
+        <header class="text-center mb-5 fade-in">
+            <h1 class="display-4 fw-bold gradient-text">تطبيق إزالة خلفية الصور</h1>
+            <p class="lead">قم برفع صورتك وإزالة الخلفية بنقرة واحدة مع أدوات تعديل متطورة</p>
+            <div class="d-flex justify-content-center gap-2 mt-3 mb-4">
+                <span class="badge bg-primary rounded-pill animated-border">تصميم 2025</span>
+                <span class="badge bg-secondary rounded-pill animated-border">الذكاء الاصطناعي</span>
+                <span class="badge bg-success rounded-pill animated-border">تعديل متطور</span>
+            </div>
 
             <!-- الآيات والأذكار -->
-            <div class="quran-verse mt-3 mb-4">
-                <div class="card border-0 bg-light">
-                    <div class="card-body py-2">
-                        <p class="mb-0 text-success">{{ random_text }}</p>
+            <div class="quran-verse mt-3 mb-4 fade-in" style="animation-delay: 0.3s;">
+                <div class="card border-0">
+                    <div class="card-body py-3">
+                        <i class="fas fa-quote-right text-primary opacity-50 me-2"></i>
+                        <p class="mb-0 gradient-text">{{ random_text }}</p>
+                        <i class="fas fa-quote-left text-primary opacity-50 ms-2"></i>
                     </div>
                 </div>
             </div>
@@ -32,98 +52,145 @@
                 <div class="card shadow-lg">
                     <div class="card-body p-4">
                         <!-- منطقة رفع الصورة -->
-                        <div id="upload-area" class="upload-area text-center p-5 mb-4">
-                            <div id="drop-area" class="drop-area mb-3">
-                                <i class="fas fa-cloud-upload-alt fa-3x mb-3 text-primary"></i>
-                                <h4>اسحب وأفلت الصورة هنا</h4>
-                                <p>أو</p>
-                                <input type="file" id="file-input" accept="image/*" class="d-none">
-                                <button id="browse-btn" class="btn btn-primary">
-                                    <i class="fas fa-folder-open me-2"></i>اختر صورة
-                                </button>
-                                <div class="mt-3 mb-0 p-2 bg-light rounded border border-info">
-                                    <p class="mb-1">
-                                        <i class="fas fa-keyboard text-primary"></i>
-                                        <strong>ميزة اللصق السريع:</strong>
-                                    </p>
-                                    <p class="mb-0">
-                                        يمكنك استخدام <kbd>Ctrl</kbd> + <kbd>V</kbd> للصق صورة من الحافظة في أي وقت
-                                        <br>
-                                        <small class="text-muted">انسخ أي صورة من أي مكان واضغط Ctrl+V في أي مكان في الصفحة</small>
-                                    </p>
+                        <div id="upload-area" class="upload-area text-center p-5 mb-4 fade-in-up">
+                            <div id="drop-area" class="drop-area mb-4 animated-border">
+                                <div class="py-4">
+                                    <i class="fas fa-cloud-upload-alt fa-4x mb-4 text-primary floating"></i>
+                                    <h4 class="gradient-text fw-bold mb-3">اسحب وأفلت الصورة هنا</h4>
+                                    <p class="text-muted">أو</p>
+                                    <input type="file" id="file-input" accept="image/*" class="d-none">
+                                    <button id="browse-btn" class="btn btn-primary btn-lg hover-float shimmer">
+                                        <i class="fas fa-folder-open me-2"></i>اختر صورة
+                                    </button>
                                 </div>
                             </div>
-                            <div class="small text-muted mt-2">
-                                الصيغ المدعومة: JPG, PNG, JPEG, WEBP
+
+                            <div class="row mt-4">
+                                <div class="col-md-6 mb-3 fade-in-right" style="animation-delay: 0.2s;">
+                                    <div class="feature-card p-3 rounded">
+                                        <div class="d-flex align-items-center">
+                                            <div class="feature-icon me-3">
+                                                <i class="fas fa-keyboard fa-2x text-primary"></i>
+                                            </div>
+                                            <div class="feature-content text-start">
+                                                <h5 class="mb-1 fw-bold">ميزة اللصق السريع</h5>
+                                                <p class="mb-0 small">
+                                                    استخدم <kbd>Ctrl</kbd> + <kbd>V</kbd> للصق صورة من الحافظة مباشرة
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-3 fade-in-left" style="animation-delay: 0.3s;">
+                                    <div class="feature-card p-3 rounded">
+                                        <div class="d-flex align-items-center">
+                                            <div class="feature-icon me-3">
+                                                <i class="fas fa-magic fa-2x text-primary"></i>
+                                            </div>
+                                            <div class="feature-content text-start">
+                                                <h5 class="mb-1 fw-bold">معالجة تلقائية</h5>
+                                                <p class="mb-0 small">
+                                                    سيتم إزالة الخلفية تلقائياً بمجرد رفع الصورة
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="alert alert-info mt-3 mb-0">
-                                <i class="fas fa-info-circle me-2"></i>
-                                سيتم إزالة الخلفية تلقائياً بمجرد رفع الصورة أو لصقها
+
+                            <div class="formats-info mt-4 small text-muted fade-in" style="animation-delay: 0.4s;">
+                                <span class="me-2"><i class="fas fa-check-circle text-success"></i> JPG</span>
+                                <span class="me-2"><i class="fas fa-check-circle text-success"></i> PNG</span>
+                                <span class="me-2"><i class="fas fa-check-circle text-success"></i> JPEG</span>
+                                <span><i class="fas fa-check-circle text-success"></i> WEBP</span>
                             </div>
                         </div>
 
                         <!-- عرض الصور -->
-                        <div id="image-preview-container" class="row d-none">
+                        <div id="image-preview-container" class="row d-none scale-in">
                             <div class="col-md-6 mb-4">
-                                <div class="card h-100">
-                                    <div class="card-header bg-primary text-white">
-                                        <h5 class="mb-0">الصورة الأصلية</h5>
+                                <div class="card h-100 fade-in-right" style="animation-delay: 0.1s;">
+                                    <div class="card-header">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-image me-2"></i>
+                                            <h5 class="mb-0">الصورة الأصلية</h5>
+                                        </div>
                                     </div>
                                     <div class="card-body d-flex align-items-center justify-content-center">
-                                        <img id="original-image" class="img-fluid" alt="الصورة الأصلية">
+                                        <img id="original-image" class="img-fluid rounded shadow-sm" alt="الصورة الأصلية">
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-4">
-                                <div class="card h-100">
-                                    <div class="card-header bg-success text-white">
-                                        <h5 class="mb-0">الصورة بعد إزالة الخلفية</h5>
+                                <div class="card h-100 fade-in-left" style="animation-delay: 0.1s;">
+                                    <div class="card-header">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-magic me-2"></i>
+                                            <h5 class="mb-0">الصورة بعد إزالة الخلفية</h5>
+                                        </div>
                                     </div>
                                     <div class="card-body d-flex flex-column">
                                         <!-- أدوات تعديل الصورة -->
-                                        <div id="image-editor-toolbar" class="image-editor-toolbar mb-3 d-none">
-                                            <div class="editor-instructions alert alert-info mb-2 py-1 small">
-                                                <i class="fas fa-info-circle me-1"></i>
-                                                يمكنك تعديل الصورة باستخدام الأدوات أدناه، ثم اضغط على "تطبيق" لحفظ التغييرات
+                                        <div id="image-editor-toolbar" class="image-editor-toolbar mb-3 d-none scale-in">
+                                            <div class="editor-instructions alert alert-info mb-2 py-2 small">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="fas fa-info-circle me-2 fa-lg"></i>
+                                                    <span>يمكنك تعديل الصورة باستخدام الأدوات أدناه، ثم اضغط على "تطبيق" لحفظ التغييرات</span>
+                                                </div>
                                             </div>
-                                            <div class="btn-group mb-2">
-                                                <button class="btn btn-sm btn-outline-primary" id="rotate-left-btn" title="تدوير لليسار">
-                                                    <i class="fas fa-undo"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-primary" id="rotate-right-btn" title="تدوير لليمين">
-                                                    <i class="fas fa-redo"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-primary" id="flip-horizontal-btn" title="قلب أفقي">
-                                                    <i class="fas fa-arrows-alt-h"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-primary" id="flip-vertical-btn" title="قلب رأسي">
-                                                    <i class="fas fa-arrows-alt-v"></i>
-                                                </button>
+                                            <div class="d-flex flex-wrap justify-content-center gap-2">
+                                                <div class="tool-group">
+                                                    <div class="tool-group-title small mb-1">التدوير والقلب</div>
+                                                    <div class="btn-group">
+                                                        <button class="btn btn-sm btn-outline-primary" id="rotate-left-btn" title="تدوير لليسار">
+                                                            <i class="fas fa-undo"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm btn-outline-primary" id="rotate-right-btn" title="تدوير لليمين">
+                                                            <i class="fas fa-redo"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm btn-outline-primary" id="flip-horizontal-btn" title="قلب أفقي">
+                                                            <i class="fas fa-arrows-alt-h"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm btn-outline-primary" id="flip-vertical-btn" title="قلب رأسي">
+                                                            <i class="fas fa-arrows-alt-v"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="tool-group">
+                                                    <div class="tool-group-title small mb-1">الحجم</div>
+                                                    <div class="btn-group">
+                                                        <button class="btn btn-sm btn-outline-secondary" id="zoom-in-btn" title="تكبير">
+                                                            <i class="fas fa-search-plus"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm btn-outline-secondary" id="zoom-out-btn" title="تصغير">
+                                                            <i class="fas fa-search-minus"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm btn-outline-secondary" id="reset-transform-btn" title="إعادة ضبط">
+                                                            <i class="fas fa-sync"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="tool-group">
+                                                    <div class="tool-group-title small mb-1">التعديلات</div>
+                                                    <div class="btn-group">
+                                                        <button class="btn btn-sm btn-outline-info" id="crop-btn" title="قص">
+                                                            <i class="fas fa-crop-alt"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm btn-outline-info" id="brightness-btn" title="سطوع">
+                                                            <i class="fas fa-sun"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm btn-outline-info" id="contrast-btn" title="تباين">
+                                                            <i class="fas fa-adjust"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="btn-group mb-2">
-                                                <button class="btn btn-sm btn-outline-secondary" id="zoom-in-btn" title="تكبير">
-                                                    <i class="fas fa-search-plus"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-secondary" id="zoom-out-btn" title="تصغير">
-                                                    <i class="fas fa-search-minus"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-secondary" id="reset-transform-btn" title="إعادة ضبط">
-                                                    <i class="fas fa-sync"></i>
-                                                </button>
-                                            </div>
-                                            <div class="btn-group mb-2">
-                                                <button class="btn btn-sm btn-outline-info" id="crop-btn" title="قص">
-                                                    <i class="fas fa-crop-alt"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-info" id="brightness-btn" title="سطوع">
-                                                    <i class="fas fa-sun"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-info" id="contrast-btn" title="تباين">
-                                                    <i class="fas fa-adjust"></i>
-                                                </button>
-                                            </div>
-                                            <div class="btn-group">
-                                                <button class="btn btn-sm btn-success" id="apply-changes-btn" title="تطبيق التغييرات">
+
+                                            <div class="d-flex justify-content-center mt-3">
+                                                <button class="btn btn-sm btn-success me-2" id="apply-changes-btn" title="تطبيق التغييرات">
                                                     <i class="fas fa-check me-1"></i> تطبيق
                                                 </button>
                                                 <button class="btn btn-sm btn-danger" id="cancel-changes-btn" title="إلغاء التغييرات">
@@ -134,11 +201,12 @@
 
                                         <!-- حاوية الصورة -->
                                         <div class="image-container d-flex align-items-center justify-content-center">
-                                            <div id="result-placeholder" class="text-center">
+                                            <div id="result-placeholder" class="text-center p-5">
+                                                <i class="fas fa-image fa-3x text-muted mb-3 opacity-50"></i>
                                                 <p>سيتم عرض النتيجة هنا بعد المعالجة</p>
                                             </div>
                                             <div id="image-editor-container" class="d-none position-relative">
-                                                <img id="result-image" class="img-fluid" alt="الصورة بعد إزالة الخلفية" style="max-width: 100%; display: block; margin: 0 auto;">
+                                                <img id="result-image" class="img-fluid rounded shadow-sm" alt="الصورة بعد إزالة الخلفية" style="max-width: 100%; display: block; margin: 0 auto;">
                                             </div>
                                         </div>
                                     </div>
@@ -146,38 +214,50 @@
                             </div>
 
                             <!-- أزرار التحكم -->
-                            <div class="col-12 text-center mt-3">
-                                <button id="remove-bg-btn" class="btn btn-primary btn-lg me-2">
+                            <div class="col-12 text-center mt-3 mb-4 fade-in-up" style="animation-delay: 0.2s;">
+                                <button id="remove-bg-btn" class="btn btn-primary btn-lg me-2 hover-float">
                                     <i class="fas fa-magic me-2"></i>إزالة الخلفية
                                 </button>
-                                <button id="download-btn" class="btn btn-success btn-lg me-2 d-none">
+                                <button id="download-btn" class="btn btn-success btn-lg me-2 d-none hover-float">
                                     <i class="fas fa-download me-2"></i>تحميل الصورة
                                 </button>
-                                <button id="reset-btn" class="btn btn-secondary btn-lg">
+                                <button id="reset-btn" class="btn btn-secondary btn-lg hover-float">
                                     <i class="fas fa-redo me-2"></i>صورة جديدة
                                 </button>
                             </div>
 
                             <!-- مؤشر التحميل -->
-                            <div id="loading" class="text-center mt-4 d-none">
-                                <div class="spinner-border text-primary" role="status">
-                                    <span class="visually-hidden">جاري المعالجة...</span>
+                            <div id="loading" class="text-center mt-4 mb-4 d-none">
+                                <div class="loading-animation">
+                                    <div class="spinner"></div>
+                                    <p class="mt-3">جاري معالجة الصورة، يرجى الانتظار...</p>
                                 </div>
-                                <p class="mt-2">جاري معالجة الصورة، يرجى الانتظار...</p>
                             </div>
 
                             <!-- سجل الصور السابقة -->
-                            <div class="col-12 mt-4">
+                            <div class="col-12 mt-4 fade-in-up" style="animation-delay: 0.3s;">
                                 <div class="card">
-                                    <div class="card-header bg-info text-white">
-                                        <h5 class="mb-0">سجل الصور السابقة</h5>
-                                        <small class="text-white-50">سيتم حذف الصور تلقائياً بعد ساعة واحدة</small>
+                                    <div class="card-header">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="d-flex align-items-center">
+                                                <i class="fas fa-history me-2"></i>
+                                                <h5 class="mb-0">سجل الصور السابقة</h5>
+                                            </div>
+                                            <div class="history-timer">
+                                                <span class="badge rounded-pill bg-info">
+                                                    <i class="fas fa-clock me-1"></i>
+                                                    <span>يتم الحفظ لمدة ساعة</span>
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="card-body">
-                                        <div id="image-history-container" class="row">
+                                        <div id="image-history-container" class="row g-3">
                                             <!-- سيتم إضافة الصور هنا ديناميكياً -->
-                                            <div class="col-12 text-center" id="no-history-message">
+                                            <div class="col-12 text-center py-4" id="no-history-message">
+                                                <i class="fas fa-images fa-3x text-muted mb-3 opacity-25"></i>
                                                 <p class="text-muted">لا توجد صور سابقة</p>
+                                                <small class="text-muted d-block">ستظهر هنا الصور التي قمت بمعالجتها سابقاً</small>
                                             </div>
                                         </div>
                                     </div>
@@ -188,17 +268,56 @@
                 </div>
 
                 <!-- معلومات إضافية -->
-                <div class="card mt-4">
+                <div class="card mt-4 shadow-sm fade-in" style="animation-delay: 0.4s;">
                     <div class="card-body">
-                        <h5 class="card-title">
-                            <i class="fas fa-info-circle me-2 text-primary"></i>
-                            معلومات عن التطبيق
-                        </h5>
-                        <p>هذا التطبيق يستخدم تقنية الذكاء الاصطناعي لإزالة خلفية الصور بشكل تلقائي باستخدام مكتبة rembg.</p>
-                        <p>يمكنك استخدام هذا التطبيق لإزالة خلفية صورك بسهولة وبدون الحاجة لبرامج تعديل الصور المعقدة.</p>
-                        <div class="alert alert-info">
-                            <i class="fas fa-lightbulb me-2"></i>
-                            <strong>نصيحة:</strong> للحصول على أفضل النتائج، استخدم صوراً ذات تباين واضح بين الموضوع والخلفية.
+                        <div class="row">
+                            <div class="col-md-7">
+                                <h5 class="card-title gradient-text mb-3">
+                                    <i class="fas fa-info-circle me-2"></i>حول التطبيق
+                                </h5>
+                                <p>
+                                    هذا التطبيق يستخدم أحدث تقنيات الذكاء الاصطناعي لعام 2025 لإزالة خلفية الصور بدقة فائقة.
+                                    يمكنك رفع صورة من جهازك أو لصقها مباشرة من الحافظة، وسيقوم التطبيق بإزالة الخلفية تلقائياً.
+                                </p>
+                                <div class="features-list">
+                                    <div class="feature-item d-flex align-items-center mb-2">
+                                        <div class="feature-icon me-2">
+                                            <i class="fas fa-check-circle text-success"></i>
+                                        </div>
+                                        <div>يدعم معظم صيغ الصور الشائعة مثل JPG و PNG و WEBP</div>
+                                    </div>
+                                    <div class="feature-item d-flex align-items-center mb-2">
+                                        <div class="feature-icon me-2">
+                                            <i class="fas fa-check-circle text-success"></i>
+                                        </div>
+                                        <div>أدوات تعديل متطورة للصور (تدوير، قلب، تكبير، سطوع، تباين)</div>
+                                    </div>
+                                    <div class="feature-item d-flex align-items-center">
+                                        <div class="feature-icon me-2">
+                                            <i class="fas fa-check-circle text-success"></i>
+                                        </div>
+                                        <div>سجل للصور السابقة يحتفظ بها لمدة ساعة</div>
+                                    </div>
+                                </div>
+                                <div class="alert alert-info mt-3">
+                                    <i class="fas fa-lightbulb me-2"></i>
+                                    <strong>نصيحة:</strong> للحصول على أفضل النتائج، استخدم صوراً ذات تباين واضح بين الموضوع والخلفية.
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="tech-stack text-center mt-3 mt-md-0">
+                                    <h6 class="mb-3 text-muted">التقنيات المستخدمة</h6>
+                                    <div class="d-flex flex-wrap justify-content-center gap-2">
+                                        <span class="badge bg-primary">Python</span>
+                                        <span class="badge bg-secondary">FastAPI</span>
+                                        <span class="badge bg-success">JavaScript</span>
+                                        <span class="badge bg-info">HTML5</span>
+                                        <span class="badge bg-warning text-dark">CSS3</span>
+                                        <span class="badge bg-danger">Bootstrap</span>
+                                        <span class="badge bg-dark">AI</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -207,16 +326,38 @@
     </div>
 
     <!-- Footer -->
-    <footer class="bg-dark text-white text-center py-4 mt-5">
-        <div class="container">
-            <p class="mb-2">تم التصميم بواسطة: <span class="fw-bold">على أحمد</span> | <a href="tel:01002241591" class="text-white">01002241591</a></p>
-            <p class="small mb-0">&copy; جميع الحقوق محفوظة {{ current_year }}</p>
+    <footer class="text-center mt-5 mb-4 fade-in" style="animation-delay: 0.5s;">
+        <div class="footer-content py-3">
+            <div class="social-links mb-3">
+                <a href="#" class="btn btn-sm btn-outline-primary rounded-circle mx-1" title="Facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="btn btn-sm btn-outline-info rounded-circle mx-1" title="Twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="btn btn-sm btn-outline-danger rounded-circle mx-1" title="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="btn btn-sm btn-outline-dark rounded-circle mx-1" title="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+            <p class="mb-1">
+                <i class="fas fa-code me-1"></i>
+                تم التطوير بواسطة <a href="#" class="text-decoration-none gradient-text">علي أحمد</a> | <a href="tel:01002241591" class="text-decoration-none">01002241591</a>
+            </p>
+            <p class="mb-0 small text-muted">
+                <i class="fas fa-copyright me-1"></i>
+                جميع الحقوق محفوظة {{ current_year }} | تصميم 2025
+            </p>
         </div>
     </footer>
 
-    <!-- Bootstrap JS Bundle -->
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Custom JS -->
     <script src="{{ url_for('static', path='/js/script.js') }}"></script>
+    <!-- Modern JS -->
+    <script src="{{ url_for('static', path='/js/modern.js') }}"></script>
 </body>
 </html>
