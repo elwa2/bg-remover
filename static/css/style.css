@@ -1,0 +1,102 @@
+/* الخطوط */
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap');
+
+body {
+    font-family: 'Tajawal', sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* منطقة رفع الصورة */
+.upload-area {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.drop-area {
+    border: 2px dashed #6c757d;
+    border-radius: 10px;
+    padding: 2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.drop-area:hover, .drop-area.dragover {
+    border-color: #0d6efd;
+    background-color: rgba(13, 110, 253, 0.05);
+}
+
+/* الصور */
+#original-image, #result-image {
+    max-height: 300px;
+    object-fit: contain;
+}
+
+.card {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.card-header {
+    font-weight: 500;
+}
+
+/* الآيات والأذكار */
+.quran-verse {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #198754;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.quran-verse .card {
+    border-radius: 15px;
+}
+
+/* أزرار */
+.btn {
+    border-radius: 8px;
+    padding: 0.5rem 1.5rem;
+    font-weight: 500;
+}
+
+.btn-lg {
+    padding: 0.75rem 2rem;
+}
+
+/* مؤشر التحميل */
+#loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* تأثيرات إضافية */
+.shadow-hover:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+}
+
+/* تعديلات للشاشات الصغيرة */
+@media (max-width: 768px) {
+    .display-4 {
+        font-size: 2.5rem;
+    }
+    
+    .drop-area {
+        padding: 1.5rem;
+    }
+    
+    #original-image, #result-image {
+        max-height: 200px;
+    }
+}
