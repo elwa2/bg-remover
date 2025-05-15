@@ -20,16 +20,29 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /**
- * إضافة متغير RGB للون الأساسي
+ * إضافة متغيرات RGB لجميع الألوان
  */
 function addRgbColorVariables() {
-    // استخراج قيم RGB من اللون الأساسي
-    const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim();
-    const rgbValues = hexToRgb(primaryColor);
+    // تعريف الألوان التي نريد تحويلها إلى RGB
+    const colors = [
+        { name: 'primary', cssVar: '--primary-color' },
+        { name: 'secondary', cssVar: '--secondary-color' },
+        { name: 'success', cssVar: '--success-color' },
+        { name: 'info', cssVar: '--info-color' },
+        { name: 'warning', cssVar: '--warning-color' },
+        { name: 'danger', cssVar: '--danger-color' },
+        { name: 'accent', cssVar: '--accent-color' }
+    ];
 
-    if (rgbValues) {
-        document.documentElement.style.setProperty('--primary-color-rgb', `${rgbValues.r}, ${rgbValues.g}, ${rgbValues.b}`);
-    }
+    // تحويل كل لون إلى RGB
+    colors.forEach(color => {
+        const colorValue = getComputedStyle(document.documentElement).getPropertyValue(color.cssVar).trim();
+        const rgbValues = hexToRgb(colorValue);
+
+        if (rgbValues) {
+            document.documentElement.style.setProperty(`--${color.name}-rgb`, `${rgbValues.r}, ${rgbValues.g}, ${rgbValues.b}`);
+        }
+    });
 }
 
 /**

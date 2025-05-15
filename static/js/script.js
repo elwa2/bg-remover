@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const imageEditorToolbar = document.getElementById('image-editor-toolbar');
     const removeBgBtn = document.getElementById('remove-bg-btn');
     const downloadBtn = document.getElementById('download-btn');
+    const copyImageBtn = document.getElementById('copy-image-btn');
     const resetBtn = document.getElementById('reset-btn');
     const loading = document.getElementById('loading');
     const imageHistoryContainer = document.getElementById('image-history-container');
@@ -29,7 +30,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const brightnessBtn = document.getElementById('brightness-btn');
     const contrastBtn = document.getElementById('contrast-btn');
     const applyChangesBtn = document.getElementById('apply-changes-btn');
+    const copyImageToolbarBtn = document.getElementById('copy-image-toolbar-btn');
     const cancelChangesBtn = document.getElementById('cancel-changes-btn');
+
+    // أزرار موضع الصورة
+    const centerImageBtn = document.getElementById('center-image-btn');
+    const moveUpBtn = document.getElementById('move-up-btn');
+    const moveDownBtn = document.getElementById('move-down-btn');
+    const moveLeftBtn = document.getElementById('move-left-btn');
+    const moveRightBtn = document.getElementById('move-right-btn');
 
     // متغيرات عامة
     let selectedFile = null;
@@ -47,6 +56,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let isEditMode = false;
     let isCropMode = false;
     let cropBox = null;
+    let imagePositionX = 0;
+    let imagePositionY = 0;
 
     // مصفوفة لتخزين سجل الصور
     let imageHistory = [];
@@ -70,6 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     removeBgBtn.addEventListener('click', removeBackground);
     downloadBtn.addEventListener('click', downloadImage);
+    copyImageBtn.addEventListener('click', copyImage); // سيتم تمرير الحدث تلقائيًا
     resetBtn.addEventListener('click', resetApp);
 
     // إضافة مستمع لحدث اللصق (Ctrl+V) على مستوى النافذة بأكملها
@@ -87,7 +99,15 @@ document.addEventListener('DOMContentLoaded', function() {
     brightnessBtn.addEventListener('click', showBrightnessControl);
     contrastBtn.addEventListener('click', showContrastControl);
     applyChangesBtn.addEventListener('click', applyImageChanges);
+    copyImageToolbarBtn.addEventListener('click', copyImage); // سيتم تمرير الحدث تلقائيًا
     cancelChangesBtn.addEventListener('click', cancelImageChanges);
+
+    // إضافة مستمعي أحداث لأزرار موضع الصورة
+    centerImageBtn.addEventListener('click', centerImage);
+    moveUpBtn.addEventListener('click', () => moveImage(0, -10));
+    moveDownBtn.addEventListener('click', () => moveImage(0, 10));
+    moveLeftBtn.addEventListener('click', () => moveImage(-10, 0));
+    moveRightBtn.addEventListener('click', () => moveImage(10, 0));
 
     // إضافة رسالة ترحيبية لإخبار المستخدم بميزة اللصق
     console.log('تم تفعيل ميزة اللصق (Ctrl+V) - يمكنك لصق أي صورة من الحافظة في أي وقت');
@@ -378,6 +398,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 resultImage.classList.remove('d-none'); // تأكد من إظهار الصورة نفسها
                 imageEditorToolbar.classList.remove('d-none');
                 downloadBtn.classList.remove('d-none');
+                copyImageBtn.classList.remove('d-none');
                 loading.classList.add('d-none');
                 removeBgBtn.disabled = false;
                 isProcessing = false;
@@ -427,6 +448,217 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.removeChild(link);
     }
 
+    // نسخ الصورة إلى الحافظة
+    async function copyImage(event) {
+        // منع السلوك الافتراضي للزر
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+
+        if (!processedImageFilename) {
+            showAlert('لا توجد صورة معالجة للنسخ', 'warning');
+            return;
+        }
+
+        try {
+            // إظهار مؤشر التحميل
+            loading.classList.remove('d-none');
+
+            // تحديد العنصر الذي تم النقر عليه
+            let clickedButton;
+            if (event && event.currentTarget) {
+                clickedButton = event.currentTarget;
+            } else {
+                clickedButton = document.activeElement;
+            }
+            console.log('تم النقر على زر:', clickedButton.id);
+
+            // إظهار تأثير بصري على الزر المضغوط
+            if (clickedButton && (clickedButton.id === 'copy-image-btn' || clickedButton.id === 'copy-image-toolbar-btn')) {
+                clickedButton.classList.add('active');
+                setTimeout(() => {
+                    clickedButton.classList.remove('active');
+                }, 300);
+            }
+
+            // إظهار ملاحظة فورية للمستخدم
+            showCopyNotification(clickedButton);
+
+            // الحصول على الصورة كـ blob
+            const response = await fetch(`/processed-image/${processedImageFilename}`);
+            const blob = await response.blob();
+
+            // طريقة 1: استخدام واجهة برمجة التطبيقات الحديثة للحافظة
+            if (navigator.clipboard && navigator.clipboard.write) {
+                try {
+                    console.log('محاولة نسخ الصورة باستخدام Clipboard API');
+                    // إنشاء كائن ClipboardItem
+                    const item = new ClipboardItem({ [blob.type]: blob });
+
+                    // نسخ الصورة إلى الحافظة
+                    await navigator.clipboard.write([item]);
+
+                    // إخفاء مؤشر التحميل
+                    loading.classList.add('d-none');
+
+                    // عرض رسالة نجاح
+                    showAlert('تم نسخ الصورة إلى الحافظة بنجاح', 'success');
+                    return;
+                } catch (clipboardError) {
+                    console.warn('فشل في استخدام واجهة برمجة التطبيقات الحديثة للحافظة:', clipboardError);
+                    // سنستمر بالطريقة البديلة
+                }
+            }
+
+            // طريقة 2: استخدام عنصر canvas للنسخ
+            console.log('استخدام طريقة Canvas للنسخ');
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+
+            img.onload = function() {
+                console.log('تم تحميل الصورة بنجاح للنسخ');
+                // إنشاء عنصر canvas
+                const canvas = document.createElement('canvas');
+                canvas.width = img.width;
+                canvas.height = img.height;
+
+                // رسم الصورة على canvas
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0);
+
+                // طريقة 3: تحويل Canvas إلى Data URL ونسخه
+                try {
+                    // تحويل Canvas إلى صورة Data URL
+                    const dataURL = canvas.toDataURL('image/png');
+
+                    // إنشاء عنصر مؤقت للنسخ
+                    const tempInput = document.createElement('textarea');
+                    tempInput.value = dataURL;
+                    document.body.appendChild(tempInput);
+                    tempInput.select();
+
+                    console.log('محاولة نسخ Data URL');
+                    const successful = document.execCommand('copy');
+                    if (successful) {
+                        console.log('تم نسخ Data URL بنجاح');
+                        showAlert('تم نسخ الصورة إلى الحافظة بنجاح', 'success');
+                    } else {
+                        // إذا فشلت هذه الطريقة، نستخدم الطريقة الأخيرة
+                        copyCanvasAsBlob(canvas);
+                    }
+
+                    // تنظيف
+                    document.body.removeChild(tempInput);
+                    loading.classList.add('d-none');
+                } catch (err) {
+                    console.error('فشل في نسخ Data URL:', err);
+                    // استخدام الطريقة الأخيرة
+                    copyCanvasAsBlob(canvas);
+                }
+            };
+
+            img.onerror = function() {
+                console.error('فشل في تحميل الصورة للنسخ');
+                loading.classList.add('d-none');
+                showAlert('فشل في تحميل الصورة للنسخ', 'danger');
+            };
+
+            // تحميل الصورة
+            img.src = `/processed-image/${processedImageFilename}`;
+
+        } catch (error) {
+            console.error('خطأ في نسخ الصورة:', error);
+            loading.classList.add('d-none');
+
+            // التحقق من نوع الخطأ وعرض رسالة مناسبة
+            if (error.name === 'NotAllowedError') {
+                showAlert('لم يتم السماح بنسخ الصورة. يرجى منح الإذن للموقع للوصول إلى الحافظة.', 'warning');
+            } else if (error.name === 'NotSupportedError') {
+                showAlert('متصفحك لا يدعم نسخ الصور. يرجى استخدام زر التحميل بدلاً من ذلك.', 'warning');
+            } else {
+                showAlert('حدث خطأ أثناء نسخ الصورة', 'danger');
+            }
+        }
+    }
+
+    // إظهار ملاحظة نسخ الصورة
+    function showCopyNotification(button) {
+        // إنشاء عنصر الملاحظة
+        const notification = document.createElement('div');
+        notification.className = 'copy-notification';
+        notification.innerHTML = '<i class="fas fa-check-circle me-1"></i> تم نسخ الصورة';
+
+        // تحديد موضع الملاحظة بالنسبة للزر
+        const buttonRect = button.getBoundingClientRect();
+
+        // إضافة الملاحظة إلى الصفحة
+        document.body.appendChild(notification);
+
+        // تحديد موضع الملاحظة
+        notification.style.position = 'fixed';
+        notification.style.top = `${buttonRect.top - 40}px`;
+        notification.style.left = `${buttonRect.left + (buttonRect.width / 2)}px`;
+        notification.style.transform = 'translateX(-50%)';
+
+        // إظهار الملاحظة
+        setTimeout(() => {
+            notification.classList.add('show');
+        }, 10);
+
+        // إخفاء الملاحظة بعد ثانيتين
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
+        }, 2000);
+    }
+
+    // وظيفة مساعدة لنسخ Canvas كـ Blob
+    function copyCanvasAsBlob(canvas) {
+        console.log('استخدام طريقة Blob للنسخ');
+        canvas.toBlob(function(canvasBlob) {
+            // إنشاء عنصر مؤقت للنسخ
+            const tempImg = document.createElement('img');
+            tempImg.src = URL.createObjectURL(canvasBlob);
+
+            // إضافة العنصر إلى الصفحة بشكل مؤقت
+            tempImg.style.position = 'fixed';
+            tempImg.style.left = '-9999px';
+            document.body.appendChild(tempImg);
+
+            // تحديد العنصر ونسخه
+            const range = document.createRange();
+            range.selectNode(tempImg);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+
+            try {
+                console.log('محاولة نسخ الصورة باستخدام execCommand');
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    console.log('تم نسخ الصورة بنجاح');
+                    showAlert('تم نسخ الصورة إلى الحافظة بنجاح', 'success');
+                } else {
+                    console.warn('فشل في نسخ الصورة باستخدام execCommand');
+                    showAlert('فشل في نسخ الصورة، يرجى استخدام زر التحميل بدلاً من ذلك', 'warning');
+                }
+            } catch (err) {
+                console.error('خطأ في نسخ الصورة:', err);
+                showAlert('فشل في نسخ الصورة، يرجى استخدام زر التحميل بدلاً من ذلك', 'warning');
+            }
+
+            // تنظيف
+            window.getSelection().removeAllRanges();
+            document.body.removeChild(tempImg);
+            URL.revokeObjectURL(tempImg.src);
+
+            // إخفاء مؤشر التحميل
+            loading.classList.add('d-none');
+        });
+    }
+
     // إعادة تعيين التطبيق
     function resetApp() {
         // إذا كانت هناك صورة حالية، أضفها إلى السجل قبل إعادة التعيين
@@ -446,6 +678,7 @@ document.addEventListener('DOMContentLoaded', function() {
         imageEditorToolbar.classList.add('d-none');
         resultPlaceholder.classList.remove('d-none');
         downloadBtn.classList.add('d-none');
+        copyImageBtn.classList.add('d-none');
         removeBgBtn.disabled = false;
 
         // إعادة ضبط متغيرات التعديل
@@ -662,6 +895,8 @@ document.addEventListener('DOMContentLoaded', function() {
         contrast = 100;
         isEditMode = false;
         isCropMode = false;
+        imagePositionX = 0;
+        imagePositionY = 0;
 
         // إعادة ضبط نمط التحويل
         applyTransform();
@@ -670,6 +905,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // تطبيق التحويلات على الصورة
     function applyTransform() {
         let transform = '';
+
+        // تطبيق الموضع
+        if (imagePositionX !== 0 || imagePositionY !== 0) {
+            transform += `translate(${imagePositionX}px, ${imagePositionY}px) `;
+        }
 
         // تطبيق التدوير
         if (currentRotation !== 0) {
@@ -1062,6 +1302,28 @@ document.addEventListener('DOMContentLoaded', function() {
         contrastBtn.classList.add('active');
     }
 
+    // تحريك الصورة
+    function moveImage(deltaX, deltaY) {
+        if (!isEditMode) {
+            enterEditMode();
+        }
+
+        imagePositionX += deltaX;
+        imagePositionY += deltaY;
+        applyTransform();
+    }
+
+    // توسيط الصورة
+    function centerImage() {
+        if (!isEditMode) {
+            enterEditMode();
+        }
+
+        imagePositionX = 0;
+        imagePositionY = 0;
+        applyTransform();
+    }
+
     // إزالة جميع عناصر التحكم
     function removeAllControls() {
         // إزالة عناصر التحكم في السطوع والتباين
@@ -1108,6 +1370,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // تحديد نقطة المنتصف للتدوير
             ctx.translate(canvas.width / 2, canvas.height / 2);
+
+            // تطبيق الموضع
+            if (imagePositionX !== 0 || imagePositionY !== 0) {
+                // تحويل الموضع من بكسل إلى نسبة من حجم الصورة
+                const posXRatio = imagePositionX / resultImage.width;
+                const posYRatio = imagePositionY / resultImage.height;
+                ctx.translate(posXRatio * canvas.width, posYRatio * canvas.height);
+            }
 
             // تطبيق التدوير
             if (currentRotation !== 0) {

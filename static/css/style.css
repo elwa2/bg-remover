@@ -3,44 +3,95 @@
 
 body {
     font-family: 'Tajawal', sans-serif;
-    background-color: #f8f9fa;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    min-height: 100vh;
+    color: var(--text-primary);
+    line-height: 1.6;
+    letter-spacing: 0.01em;
+    overflow-x: hidden;
 }
 
-/* منطقة رفع الصورة */
+/* منطقة رفع الصورة - تصميم 2025 */
 .upload-area {
-    background-color: #f8f9fa;
-    border-radius: 10px;
-    transition: all 0.3s ease;
+    background-color: rgba(var(--primary-rgb), 0.02);
+    border-radius: 20px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 2rem;
 }
 
 .drop-area {
-    border: 2px dashed #6c757d;
-    border-radius: 10px;
-    padding: 2rem;
+    border: 2px dashed rgba(var(--primary-rgb), 0.3);
+    border-radius: 16px;
+    padding: 3rem 2rem;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.02) 0%, rgba(var(--accent-rgb), 0.03) 100%);
+    box-shadow: 0 5px 20px rgba(var(--primary-rgb), 0.05);
 }
 
-.drop-area:hover, .drop-area.dragover {
-    border-color: #0d6efd;
-    background-color: rgba(13, 110, 253, 0.05);
+.drop-area:hover {
+    border-color: var(--primary-color);
+    background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.05) 0%, rgba(var(--accent-rgb), 0.07) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(var(--primary-rgb), 0.08);
 }
 
-/* الصور */
-#original-image {
-    max-height: 300px;
+.drop-area.dragover {
+    border-color: var(--primary-color);
+    background-color: rgba(var(--primary-rgb), 0.08);
+    transform: scale(1.01);
+    box-shadow: 0 10px 30px rgba(var(--primary-rgb), 0.1);
+}
+
+/* الصور - تصميم 2025 */
+#original-image, #result-image {
+    max-height: 350px;
     object-fit: contain;
+    border-radius: 12px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
 
 #result-image {
-    max-height: 300px;
-    object-fit: contain;
-    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+#result-image:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 25px rgba(var(--primary-rgb), 0.1);
+}
+
+.image-container {
+    position: relative;
+    min-height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.02) 0%, rgba(var(--accent-rgb), 0.03) 100%);
 }
 
 .card {
-    border-radius: 10px;
+    border-radius: 16px;
     overflow: hidden;
+    border: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.card-header {
+    background-color: rgba(var(--primary-rgb), 0.03);
+    border-bottom: 1px solid rgba(var(--primary-rgb), 0.1);
+    padding: 1rem 1.5rem;
+}
+
+.card-body {
+    padding: 1.5rem;
 }
 
 .card-header {
@@ -51,31 +102,130 @@ body {
 .image-editor-toolbar {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 1rem;
     justify-content: center;
-    padding: 0.5rem;
-    background-color: #f8f9fa;
-    border-radius: 0.5rem;
-    border: 1px solid #dee2e6;
+    padding: 1.25rem;
+    background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.03) 0%, rgba(var(--accent-rgb), 0.05) 100%);
+    border-radius: 16px;
+    border: 1px solid rgba(var(--primary-rgb), 0.08);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+    margin-bottom: 1.5rem;
+}
+
+.tool-group {
+    margin-bottom: 0.75rem;
+    position: relative;
+}
+
+.tool-group-title {
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    text-align: center;
 }
 
 .image-editor-toolbar .btn-group {
     margin-right: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 .image-editor-toolbar .btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     padding: 0;
+    border-radius: 0;
+    border: 1px solid rgba(var(--primary-rgb), 0.1);
+    transition: all 0.3s ease;
+}
+
+.image-editor-toolbar .btn:hover {
+    background-color: rgba(var(--primary-rgb), 0.1);
+    transform: translateY(-1px);
+}
+
+.image-editor-toolbar .btn.active {
+    background-color: var(--primary-color);
+    color: white;
 }
 
 .image-editor-toolbar .btn-success,
-.image-editor-toolbar .btn-danger {
+.image-editor-toolbar .btn-danger,
+.image-editor-toolbar .btn-info {
     width: auto;
-    padding: 0 0.75rem;
+    padding: 0 1rem;
+    height: 38px;
+}
+
+/* تحديد حجم زر نسخ الصورة في شريط الأدوات */
+#copy-image-toolbar-btn {
+    min-width: 111px;
+    font-weight: 600;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+/* تأثير النقر على زر النسخ */
+#copy-image-toolbar-btn::after,
+#copy-image-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.8);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%, -50%);
+    transform-origin: 50% 50%;
+}
+
+#copy-image-toolbar-btn:active::after,
+#copy-image-btn:active::after {
+    animation: ripple 0.6s ease-out;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0, 0);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(30, 30);
+        opacity: 0;
+    }
+}
+
+/* ملاحظة نسخ الصورة */
+.copy-notification {
+    background-color: rgba(25, 135, 84, 0.95);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    pointer-events: none;
+    text-align: center;
+    min-width: 150px;
+}
+
+.copy-notification.show {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 #image-editor-container {
@@ -83,59 +233,139 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 300px;
+    min-height: 350px;
     overflow: hidden;
-    background-color: rgba(0, 0, 0, 0.05);
-    border-radius: 8px;
-    padding: 10px;
+    background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.02) 0%, rgba(var(--accent-rgb), 0.03) 100%);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(var(--primary-rgb), 0.08);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#image-editor-container:hover {
+    box-shadow: 0 8px 25px rgba(var(--primary-rgb), 0.08);
 }
 
 /* تأكد من أن الصورة تظهر بشكل صحيح */
 #result-image {
     display: block !important;
     max-width: 100%;
-    max-height: 300px;
+    max-height: 350px;
     object-fit: contain;
     margin: 0 auto;
-    border-radius: 4px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    background: repeating-conic-gradient(rgba(var(--primary-rgb), 0.03) 0% 25%, rgba(var(--accent-rgb), 0.05) 0% 50%)
+                50% / 20px 20px;
 }
 
-/* ضوابط التعديل */
+#result-image:hover {
+    transform: scale(1.02);
+    box-shadow: 0 12px 30px rgba(var(--primary-rgb), 0.15);
+}
+
+/* تحسين خلفية الصورة بعد الحذف */
+.image-container {
+    position: relative;
+    background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.02) 0%, rgba(var(--accent-rgb), 0.03) 100%);
+    border-radius: 16px;
+    overflow: hidden;
+    min-height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ضوابط التعديل - تصميم 2025 */
 .image-control {
     position: absolute;
-    bottom: 10px;
+    bottom: 15px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 0.5rem 1rem;
-    border-radius: 1rem;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 0.75rem 1.5rem;
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
     display: flex;
     align-items: center;
     z-index: 10;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(var(--primary-rgb), 0.1);
+    transition: all 0.3s ease;
+}
+
+.image-control:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }
 
 .image-control label {
-    margin-right: 0.5rem;
+    margin-right: 0.75rem;
     margin-bottom: 0;
-    font-weight: 500;
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    min-width: 60px;
 }
 
 .image-control input {
-    width: 150px;
+    width: 180px;
+    height: 8px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: linear-gradient(to right, rgba(var(--primary-rgb), 0.2), rgba(var(--primary-rgb), 0.8));
+    border-radius: 4px;
+    outline: none;
 }
 
-/* الآيات والأذكار */
+.image-control input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* الآيات والأذكار - تصميم 2025 */
 .quran-verse {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     font-weight: 500;
-    color: #198754;
+    line-height: 1.7;
     max-width: 800px;
     margin: 0 auto;
+    position: relative;
 }
 
 .quran-verse .card {
-    border-radius: 15px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.03) 0%, rgba(var(--accent-rgb), 0.05) 100%);
+    border: none;
+    box-shadow: 0 5px 20px rgba(var(--primary-rgb), 0.08);
+    overflow: visible;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.quran-verse .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(var(--primary-rgb), 0.12);
+}
+
+.quran-verse .card-body {
+    position: relative;
+    padding: 1.75rem;
+}
+
+.quran-verse .gradient-text {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 600;
 }
 
 /* أزرار */
@@ -149,19 +379,49 @@ body {
     padding: 0.75rem 2rem;
 }
 
-/* مؤشر التحميل */
+/* مؤشر التحميل - تصميم 2025 */
 #loading {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.9);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    backdrop-filter: blur(10px);
+}
+
+.loading-animation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(var(--primary-rgb), 0.15);
+    border: 1px solid rgba(var(--primary-rgb), 0.1);
+    max-width: 300px;
+    width: 100%;
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(var(--primary-rgb), 0.1);
+    border-radius: 50%;
+    border-top: 4px solid var(--primary-color);
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 /* تأثيرات إضافية */
@@ -237,27 +497,31 @@ body {
     color: white;
 }
 
-/* سجل الصور */
+/* سجل الصور - تصميم 2025 */
 .history-image-container {
     position: relative;
-    margin-bottom: 15px;
-    transition: all 0.3s ease;
-    border-radius: 8px;
+    margin-bottom: 20px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.02) 0%, rgba(var(--accent-rgb), 0.03) 100%);
+    border: 1px solid rgba(var(--primary-rgb), 0.08);
 }
 
 .history-image-container:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 25px rgba(var(--primary-rgb), 0.1);
 }
 
 .history-image {
     width: 100%;
-    height: 150px;
+    height: 180px;
     object-fit: contain;
-    background-color: #f8f9fa;
-    border-radius: 8px;
+    background-color: transparent;
+    border-radius: 12px;
+    padding: 10px;
+    transition: all 0.4s ease;
 }
 
 .history-image-overlay {
@@ -266,29 +530,202 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: linear-gradient(to bottom,
+        rgba(var(--primary-rgb), 0.2) 0%,
+        rgba(var(--primary-rgb), 0.8) 100%);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     opacity: 0;
-    transition: opacity 0.3s ease;
-    border-radius: 8px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 16px;
+    backdrop-filter: blur(3px);
 }
 
 .history-image-container:hover .history-image-overlay {
     opacity: 1;
 }
 
+.history-image-overlay .btn {
+    margin-bottom: 0.5rem;
+    min-width: 120px;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: 0.1s;
+}
+
+.history-image-overlay .btn:last-child {
+    transition-delay: 0.2s;
+}
+
+.history-image-container:hover .history-image-overlay .btn {
+    transform: translateY(0);
+    opacity: 1;
+}
+
 .history-image-time {
     position: absolute;
-    top: 5px;
-    right: 5px;
-    background-color: rgba(0, 0, 0, 0.6);
+    top: 10px;
+    right: 10px;
+    background-color: rgba(var(--primary-rgb), 0.8);
     color: white;
-    padding: 2px 8px;
-    border-radius: 10px;
+    padding: 4px 12px;
+    border-radius: 20px;
     font-size: 0.8rem;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+    z-index: 5;
+}
+
+/* تنسيق الشارات - تصميم 2025 */
+.badge {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.badge.rounded-pill {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+}
+
+.badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(var(--primary-rgb), 0.15);
+}
+
+.animated-border {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.animated-border::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 50px;
+    background: linear-gradient(45deg,
+        var(--primary-color),
+        var(--secondary-color),
+        var(--accent-color),
+        var(--primary-color));
+    z-index: -1;
+    animation: rotate-border 3s linear infinite;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.animated-border:hover::before {
+    opacity: 1;
+}
+
+@keyframes rotate-border {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* تنسيق الذيل - تصميم 2025 */
+.footer-content {
+    position: relative;
+    padding: 2rem;
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.03) 0%, rgba(var(--accent-rgb), 0.05) 100%);
+    box-shadow: 0 5px 20px rgba(var(--primary-rgb), 0.08);
+    border: 1px solid rgba(var(--primary-rgb), 0.08);
+}
+
+.footer-divider {
+    height: 2px;
+    width: 80px;
+    margin: 0 auto;
+    background: linear-gradient(90deg,
+        rgba(var(--primary-rgb), 0) 0%,
+        rgba(var(--primary-rgb), 0.5) 50%,
+        rgba(var(--primary-rgb), 0) 100%);
+}
+
+.social-links .btn {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.social-links .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(var(--primary-rgb), 0.15);
+}
+
+/* تنسيق بطاقات الميزات - تصميم 2025 */
+.feature-card {
+    background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.03) 0%, rgba(var(--accent-rgb), 0.05) 100%);
+    border-radius: 16px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(var(--primary-rgb), 0.08);
+    padding: 1.5rem;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(var(--primary-rgb), 0.1);
+}
+
+.feature-icon {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    box-shadow: 0 5px 15px rgba(var(--primary-rgb), 0.2);
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover .feature-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* تنسيق شارات الصيغ */
+.format-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, rgba(var(--success-rgb), 0.1) 0%, rgba(var(--success-rgb), 0.2) 100%);
+    border-radius: 30px;
+    color: var(--success-color);
+    font-weight: 600;
+    box-shadow: 0 3px 10px rgba(var(--success-rgb), 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(var(--success-rgb), 0.1);
+}
+
+.format-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(var(--success-rgb), 0.2);
+}
+
+.format-badge i {
+    margin-right: 0.25rem;
 }
 
 /* تعديلات للشاشات الصغيرة */
@@ -307,5 +744,10 @@ body {
 
     .history-image {
         height: 120px;
+    }
+
+    .format-badge {
+        padding: 0.3rem 0.7rem;
+        font-size: 0.8rem;
     }
 }
