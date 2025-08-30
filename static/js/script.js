@@ -80,8 +80,10 @@ document.addEventListener('DOMContentLoaded', function() {
     dropArea.addEventListener('dragover', handleDragOver);
     dropArea.addEventListener('dragleave', handleDragLeave);
     dropArea.addEventListener('drop', handleDrop);
+    // منع السلوك الافتراضي للمتصفح عند السحب فوق الصفحة
     document.body.addEventListener('dragover', (e) => e.preventDefault());
-    document.body.addEventListener('drop', handleDrop);
+    // إزالة المستمع المكرر الذي يسبب المشكلة
+    document.body.addEventListener('drop', (e) => e.preventDefault());
 
     removeBgBtn.addEventListener('click', () => processFile(selectedFile));
     downloadBtn.addEventListener('click', downloadImage);
