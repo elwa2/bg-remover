@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, UploadFile, Request, HTTPException
+from fastapi import FastAPI, File, UploadFile, Request, HTTPException, BackgroundTasks
 from fastapi.responses import HTMLResponse, StreamingResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -13,6 +13,8 @@ import uvicorn
 import random
 import logging
 import traceback
+import asyncio
+import time
 from datetime import datetime
 
 # إعداد التسجيل
@@ -94,9 +96,19 @@ async def home(request: Request):
 
     return templates.TemplateResponse("index.html", template_data)
 
+# دالة لحذف الملفات المؤقتة في الخلفية
+def cleanup_file(path: str):
+    try:
+        # الانتظار لمدة 15 دقيقة قبل الحذف
+        time.sleep(900)
+        os.remove(path)
+        logger.info(f"تم حذف الملف المؤقت: {path}")
+    except Exception as e:
+        logger.error(f"فشل في حذف الملف المؤقت {path}: {e}")
+
 # واجهة برمجة التطبيق لإزالة خلفية الصورة
 @app.post("/remove-bg/")
-async def remove_bg(file: UploadFile = File(...)):
+async def remove_bg(background_tasks: BackgroundTasks, file: UploadFile = File(...)):
     logger.info(f"تم استلام طلب لإزالة خلفية صورة: {file.filename}")
 
     # التحقق من نوع الملف
@@ -114,10 +126,10 @@ async def remove_bg(file: UploadFile = File(...)):
             logger.warning(f"حجم الصورة كبير جداً: {len(input_image_data) / (1024 * 1024):.2f} MB")
             raise HTTPException(status_code=400, detail="حجم الصورة كبير جداً. الحد الأقصى هو 10 ميجابايت")
 
-        # إزالة الخلفية باستخدام rembg
+        # إزالة الخلفية باستخدام rembg في thread منفصل لتجنب حظر الخادم
         logger.info("جاري إزالة خلفية الصورة...")
         try:
-            output_image_data = remove(input_image_data)
+            output_image_data = await asyncio.to_thread(remove, input_image_data)
         except Exception as e:
             logger.error(f"خطأ في مكتبة rembg: {str(e)}")
             logger.error(traceback.format_exc())
@@ -136,6 +148,10 @@ async def remove_bg(file: UploadFile = File(...)):
             logger.error(f"خطأ في حفظ الصورة: {str(e)}")
             logger.error(traceback.format_exc())
             raise HTTPException(status_code=500, detail=f"خطأ في حفظ الصورة: {str(e)}")
+
+        # إضافة مهمة في الخلفية لحذف الملف بعد فترة
+        background_tasks.add_task(cleanup_file, output_path)
+        logger.info(f"تمت جدولة حذف الملف {output_path} بعد 15 دقيقة")
 
         # إرجاع الصورة المعالجة
         logger.info(f"تمت معالجة الصورة بنجاح: {filename}")

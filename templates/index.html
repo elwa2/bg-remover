@@ -65,9 +65,28 @@
                                     <h4 class="gradient-text fw-bold mb-3">اسحب وأفلت الصورة هنا</h4>
                                     <p class="text-muted">أو</p>
                                     <input type="file" id="file-input" accept="image/*" class="d-none">
-                                    <button id="browse-btn" class="btn btn-primary btn-lg hover-float shimmer">
-                                        <i class="fas fa-folder-open me-2"></i>اختر صورة
-                                    </button>
+                                    <input type="file" id="multiple-file-input" class="d-none" multiple accept="image/*">
+                                    <div class="btn-group">
+                                        <button id="browse-btn" class="btn btn-primary btn-lg hover-float shimmer">
+                                            <i class="fas fa-image me-2"></i>اختر صورة
+                                        </button>
+                                        <label for="multiple-file-input" class="btn btn-secondary btn-lg hover-float shimmer mb-0">
+                                            <i class="fas fa-images me-2"></i>اختر عدة صور
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- منطقة معالجة المجلد -->
+                            <div id="folder-processing-area" class="d-none mt-4">
+                                <h4 class="mb-3 gradient-text">معالجة الصور من المجلد</h4>
+                                <div class="progress mb-3" style="height: 25px;">
+                                    <div id="folder-progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                                </div>
+                                <div id="folder-progress-status" class="text-muted"></div>
+                                <div id="processed-folder-images" class="row g-3 mt-3"></div>
+                                <div class="text-center mt-4">
+                                    <!-- تم إزالة زر التحميل المجمع لصالح التحميل التلقائي لكل صورة على حدة -->
                                 </div>
                             </div>
 
@@ -394,6 +413,8 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- JSZip for folder processing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <!-- Custom JS -->
     <script src="{{ url_for('static', path='/js/script.js') }}"></script>
     <!-- Modern JS -->
