@@ -128,9 +128,27 @@ document.addEventListener('DOMContentLoaded', function() {
     function handleDrop(e) {
         e.preventDefault();
         dropArea.classList.remove('dragover');
-        const file = e.dataTransfer.files[0];
-        if (file && file.type.startsWith('image/')) {
-            processSelectedFile(file);
+        const files = e.dataTransfer.files;
+
+        if (files.length === 0) {
+            return; // لم يتم إفلات أي ملفات
+        }
+
+        // إذا تم إفلات ملف واحد فقط
+        if (files.length === 1) {
+            const file = files[0];
+            if (file && file.type.startsWith('image/')) {
+                processSelectedFile(file); // تشغيل منطق الصورة الواحدة
+            } else {
+                showAlert('يرجى إفلات ملف صورة صالح.', 'warning');
+            }
+        } else { // إذا تم إفلات أكثر من ملف
+            folderFiles = Array.from(files).filter(file => file.type.startsWith('image/'));
+            if (folderFiles.length > 0) {
+                startFolderProcessing(); // تشغيل منطق الصور المتعددة
+            } else {
+                showAlert('لم يتم العثور على صور صالحة ضمن الملفات التي تم إفلاتها.', 'warning');
+            }
         }
     }
 
