@@ -1,5 +1,5 @@
 from fastapi import FastAPI, File, UploadFile, Request, HTTPException, BackgroundTasks
-from fastapi.responses import HTMLResponse, StreamingResponse, FileResponse
+from fastapi.responses import HTMLResponse, StreamingResponse, FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
@@ -7,6 +7,7 @@ from rembg import remove
 from PIL import Image
 import io
 import os
+import sys
 import uuid
 import shutil
 import uvicorn
@@ -15,6 +16,9 @@ import logging
 import traceback
 import asyncio
 import time
+import webbrowser
+import threading
+import signal
 from datetime import datetime
 
 # إعداد التسجيل
@@ -96,13 +100,20 @@ async def home(request: Request):
 
     return templates.TemplateResponse("index.html", template_data)
 
-# دالة لحذف الملفات المؤقتة في الخلفية
+# دالة لحذف الملفات المؤقتة في الخلفية (أكثر أماناً)
 def cleanup_file(path: str):
+    """حذف ملف محدد بعد فترة زمنية"""
     try:
-        # الانتظار لمدة 15 دقيقة قبل الحذف
-        time.sleep(900)
-        os.remove(path)
-        logger.info(f"تم حذف الملف المؤقت: {path}")
+        # التأكد من صحة المسار وعدم كونه خارج مجلد temp
+        if not path.startswith("temp") or ".." in path:
+            return
+            
+        # الانتظار لمدة ساعة قبل الحذف لضمان بقاء الصور في السجل للمستخدم
+        time.sleep(3600)
+        
+        if os.path.exists(path):
+            os.remove(path)
+            logger.info(f"تم حذف الملف المؤقت: {path}")
     except Exception as e:
         logger.error(f"فشل في حذف الملف المؤقت {path}: {e}")
 
@@ -189,29 +200,60 @@ async def get_processed_image(filename: str):
         logger.error(traceback.format_exc())
         raise HTTPException(status_code=500, detail=f"خطأ في قراءة الملف: {str(e)}")
 
-# تنظيف الملفات المؤقتة (يمكن تشغيلها بشكل دوري)
+# تنظيف الملفات المؤقتة بناءً على العمر
 @app.get("/cleanup/")
 async def cleanup_temp_files():
-    logger.info("بدء تنظيف الملفات المؤقتة")
+    logger.info("بدء تنظيف الملفات المؤقتة القديمة")
     try:
         count = 0
+        now = time.time()
+        # حذف الملفات التي مضى عليها أكثر من ساعة
+        retention_period = 3600 
+        
+        if not os.path.exists("temp"):
+            return {"message": "مجلد الملفات المؤقتة غير موجود"}
+
         for filename in os.listdir("temp"):
             file_path = os.path.join("temp", filename)
-            # حذف الملفات
             if os.path.isfile(file_path):
-                try:
-                    os.remove(file_path)
-                    count += 1
-                    logger.info(f"تم حذف الملف: {file_path}")
-                except Exception as e:
-                    logger.error(f"فشل في حذف الملف {file_path}: {str(e)}")
+                file_age = now - os.path.getmtime(file_path)
+                if file_age > retention_period:
+                    try:
+                        os.remove(file_path)
+                        count += 1
+                        logger.info(f"تم حذف الملف القديم: {file_path}")
+                    except Exception as e:
+                        logger.error(f"فشل في حذف الملف {file_path}: {str(e)}")
 
-        logger.info(f"تم تنظيف {count} ملف بنجاح")
-        return {"message": f"تم تنظيف {count} ملف بنجاح"}
+        logger.info(f"تم تنظيف {count} ملف قديم بنجاح")
+        return {"message": f"تم تنظيف {count} ملف قديم بنجاح"}
     except Exception as e:
         logger.error(f"خطأ أثناء تنظيف الملفات: {str(e)}")
         logger.error(traceback.format_exc())
         raise HTTPException(status_code=500, detail=f"حدث خطأ أثناء تنظيف الملفات: {str(e)}")
 
+# Endpoint لإغلاق السيرفر
+@app.post("/shutdown")
+async def shutdown_server():
+    """إغلاق السيرفر بشكل آمن"""
+    logger.info("تم طلب إغلاق السيرفر")
+    
+    def shutdown():
+        time.sleep(0.5)  # انتظار قليل للسماح بإرسال الاستجابة
+        os.kill(os.getpid(), signal.SIGTERM)
+    
+    threading.Thread(target=shutdown).start()
+    return JSONResponse({"message": "جاري إغلاق السيرفر..."})
+
+
+def open_browser():
+    """فتح المتصفح بعد بدء السيرفر"""
+    webbrowser.open("http://localhost:8000")
+
+
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    # فتح المتصفح بعد 1.5 ثانية من بدء السيرفر
+    threading.Timer(1.5, open_browser).start()
+    
+    # تشغيل السيرفر (بدون reload في الـ production)
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=False)
